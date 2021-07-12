@@ -2,7 +2,7 @@
 
 buildscript {
     ext.kotlinVersion = '1.5.20'
-    ext.navigationVersion = "2.2.0"
+    ext.navigationVersion = "2.3.5"
 
     repositories {
         google()
@@ -42,7 +42,7 @@ ext {
     androidXAnnotations = '1.0.1'
     androidXLegacySupport = '1.0.0'
     appCompatVersion = '1.2.0'
-    archLifecycleVersion = '2.2.0'
+    archLifecycleVersion = '2.3.1'
     cardVersion = '1.0.0'
     materialVersion = '1.1.0'
     fragmentVersion = '1.1.0-alpha07'
@@ -50,8 +50,8 @@ ext {
     mockitoVersion = '2.8.9'
     constraintVersion = '2.0.0-rc1'
     dexMakerVersion = '2.12.1'
-    coroutinesVersion = '1.2.1'
-    roomVersion = '2.2.5'
+    coroutinesVersion = '1.4.1'
+    roomVersion = '2.3.0'
     koinVersion = '2.0.1'
     truthVersion = '0.44'
     junitVersion = '4.12'

@@ -1,10 +1,6 @@
 package com.udacity.project4.locationreminders.data.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 
 /**
@@ -15,6 +11,7 @@ interface RemindersDao {
     /**
      * @return all reminders.
      */
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT * FROM reminders")
     suspend fun getReminders(): List<ReminderDTO>
 
@@ -22,6 +19,7 @@ interface RemindersDao {
      * @param reminderId the id of the reminder
      * @return the reminder object with the reminderId
      */
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT * FROM reminders where entry_id = :reminderId")
     suspend fun getReminderById(reminderId: String): ReminderDTO?
 

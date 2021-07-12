@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "965145360220",
+    "project_id": "location-reminder-kotlin",
+    "storage_bucket": "location-reminder-kotlin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965145360220:android:06cd14fec356e38d83f399",
+        "android_client_info": {
+          "package_name": "com.udacity.project4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965145360220-fnmg282p2vlk9jvhmdqce26lb08bt91m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxewjbqQtG74qYW_y3sFBFXQLPgnJgMlM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965145360220-fnmg282p2vlk9jvhmdqce26lb08bt91m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

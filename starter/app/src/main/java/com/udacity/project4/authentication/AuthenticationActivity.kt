@@ -37,7 +37,7 @@ class AuthenticationActivity : AppCompatActivity() {
         registerForSignInResult()
 
         binding.loginButton.setOnClickListener {
-            // TODO: Implement the create account and sign in using FirebaseUI, use sign in using email and sign in using Google
+            // TODO: Implement the create account and sign in using FirebaseUI, use sign in using email and sign in using Google //DONE
             launchSignInFlow()
         }
 //          TODO: If the user was authenticated, send him to RemindersActivity

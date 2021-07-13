@@ -45,7 +45,7 @@ class AuthenticationActivity : AppCompatActivity() {
             when(authenticationState) {
                 AuthenticationViewModel.AuthenticationState.AUTHENTICATED ->
                 {
-                    // TODO Launch RemindersActivity here
+                    // TODO Launch RemindersActivity here //DONE
                     val intent = Intent(this, RemindersActivity::class.java)
                     startActivity(intent)
                     Log.i(
@@ -81,7 +81,6 @@ class AuthenticationActivity : AppCompatActivity() {
     }
 
     private fun launchSignInFlow() {
-        Log.d(TAG, "Launching sign in flow")
         // Give users the option to either sign in / register with their email or Google account
         val providers = arrayListOf(AuthUI.IdpConfig.EmailBuilder().build(), AuthUI.IdpConfig.GoogleBuilder().build())
 

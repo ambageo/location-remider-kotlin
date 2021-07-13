@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -37,6 +39,7 @@ android {
     buildFeatures {
         dataBinding true
     }
+
 }
 
 dependencies {

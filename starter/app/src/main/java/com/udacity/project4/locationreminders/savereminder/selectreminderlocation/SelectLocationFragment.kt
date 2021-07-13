@@ -7,9 +7,11 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.common.api.ApiException
@@ -28,12 +30,18 @@ import com.udacity.project4.databinding.FragmentSelectLocationBinding
 import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
 import com.udacity.project4.utils.setDisplayHomeAsUpEnabled
 import org.koin.android.ext.android.inject
+import kotlin.concurrent.fixedRateTimer
 
-class SelectLocationFragment : BaseFragment() {
+class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
     //Use Koin to get the view model of the SaveReminder
     override val _viewModel: SaveReminderViewModel by inject()
+
+    private lateinit var map: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var binding: FragmentSelectLocationBinding
+
+    private val REQUEST_PERMISSION_LOCATION = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -44,10 +52,15 @@ class SelectLocationFragment : BaseFragment() {
         binding.viewModel = _viewModel
         binding.lifecycleOwner = this
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(true)
 
 //        TODO: add the map setup implementation
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        val mapFragment =   childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 //        TODO: zoom to the user location after taking his permission
 //        TODO: add style to the map
 //        TODO: put a marker to location that the user selected
@@ -87,5 +100,51 @@ class SelectLocationFragment : BaseFragment() {
         else -> super.onOptionsItemSelected(item)
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
 
+        enableLocation()
+
+
+    }
+
+    private fun enableLocation() {
+        if ( isPermissionGranted()) {
+            map.setMyLocationEnabled(true)
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location : Location ->
+                    run {
+                        // Got last known location. In some rare situations this can be null.
+                        val lat = location.latitude
+                        val long = location.longitude
+                        val currentPosition = LatLng(lat, long)
+                        val zoom = 15f
+
+                        map.addMarker(MarkerOptions().position(currentPosition).title(getString(R.string.you_are_here)))
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, zoom))
+                    }
+
+                }
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSION_LOCATION)
+        }
+    }
+
+    private fun isPermissionGranted(): Boolean {
+        return ContextCompat.
+        checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if( requestCode == REQUEST_PERMISSION_LOCATION ) {
+            if( grantResults.isNotEmpty() && (grantResults[0] ==PackageManager.PERMISSION_GRANTED)){
+                enableLocation()
+            }
+        }
+    }
 }

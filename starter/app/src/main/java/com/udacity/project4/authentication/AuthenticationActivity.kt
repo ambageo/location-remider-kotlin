@@ -19,6 +19,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.udacity.project4.R
 import com.udacity.project4.databinding.ActivityAuthenticationBinding
+import com.udacity.project4.locationreminders.RemindersActivity
 
 /**
  * This class should be the starting point of the app, It asks the users to sign in / register, and redirects the
@@ -43,10 +44,14 @@ class AuthenticationActivity : AppCompatActivity() {
         viewModel.authenticationState.observe(this, Observer { authenticationState ->
             when(authenticationState) {
                 AuthenticationViewModel.AuthenticationState.AUTHENTICATED ->
+                {
                     // TODO Launch RemindersActivity here
+                    val intent = Intent(this, RemindersActivity::class.java)
+                    startActivity(intent)
                     Log.i(
                         TAG,
                         "User ${FirebaseAuth.getInstance().currentUser?.displayName} signed in,Should go to RemindersActivity")
+                }
                else -> Log.i(TAG, "Error or not authenticated")
             }
 

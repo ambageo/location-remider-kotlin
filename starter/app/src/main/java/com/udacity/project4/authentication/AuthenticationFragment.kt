@@ -24,11 +24,6 @@ import com.udacity.project4.R
 import com.udacity.project4.databinding.FragmentAuthenticationBinding
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AuthenticationFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AuthenticationFragment : Fragment() {
 
     private lateinit var registerForActivityResult: ActivityResultLauncher<Intent>
@@ -46,7 +41,7 @@ class AuthenticationFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_authentication, container, false)
-Log.d(TAG, "onCreateView")
+        Log.d(TAG, "onCreateView")
         registerForSignInResult()
 
         return binding.root
@@ -62,7 +57,7 @@ Log.d(TAG, "onCreateView")
             launchSignInFlow()
         }
 
-        // TODO: If the user was authenticated, send him to RemindersActivity
+        // TODO: If the user was authenticated, send him to RemindersActivity //DONE
         viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->
             when(authenticationState) {
                 AuthenticationViewModel.AuthenticationState.AUTHENTICATED ->

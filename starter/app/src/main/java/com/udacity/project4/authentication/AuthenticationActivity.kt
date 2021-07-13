@@ -2,7 +2,9 @@ package com.udacity.project4.authentication
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import com.udacity.project4.R
 
 /**

@@ -119,7 +119,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                         val long = location.longitude
                         val currentPosition = LatLng(lat, long)
                         val zoom = 15f
-
                         map.addMarker(MarkerOptions().position(currentPosition).title(getString(R.string.you_are_here)))
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, zoom))
                     }

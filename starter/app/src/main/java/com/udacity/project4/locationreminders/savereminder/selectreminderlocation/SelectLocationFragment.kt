@@ -34,6 +34,8 @@ import kotlin.concurrent.fixedRateTimer
 
 class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
+    private val TAG = SelectLocationFragment::class.java.simpleName
+
     //Use Koin to get the view model of the SaveReminder
     override val _viewModel: SaveReminderViewModel by inject()
 
@@ -102,7 +104,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-
+        Log.d(TAG, "Map is ready")
         enableLocation()
 
 

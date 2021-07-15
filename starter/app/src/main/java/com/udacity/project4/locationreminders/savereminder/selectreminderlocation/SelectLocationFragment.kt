@@ -58,7 +58,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     lateinit var geofencingClient: GeofencingClient
 
     companion object {
-        internal const val ACTION_GEOFENCE_EVENT = "GEOFENCE_EVENT"
+        const val ACTION_GEOFENCE_EVENT = "GEOFENCE_EVENT"
         internal const val GEOFENCE_RADIUS_METERS = 50f
         val GEOFENCE_EXPIRATION_MILLISECONDS: Long = TimeUnit.HOURS.toMillis(2)
     }

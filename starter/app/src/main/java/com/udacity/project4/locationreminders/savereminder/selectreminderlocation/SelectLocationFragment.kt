@@ -2,9 +2,6 @@ package com.udacity.project4.locationreminders.savereminder.selectreminderlocati
 
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
-import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
@@ -14,23 +11,19 @@ import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.R
 import com.udacity.project4.base.BaseFragment
-import com.udacity.project4.base.NavigationCommand
 import com.udacity.project4.databinding.FragmentSelectLocationBinding
 import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
+import com.udacity.project4.utils.createTitle
 import com.udacity.project4.utils.setDisplayHomeAsUpEnabled
 import org.koin.android.ext.android.inject
-import kotlin.concurrent.fixedRateTimer
 
 class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
@@ -113,13 +106,13 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         Log.d(TAG, "Map is ready")
+
         enableLocation()
-
-
+        setMapLongClick(map)
+        setMapStyle(map)
     }
 
     private fun enableLocation() {
-
         if ( isPermissionGranted()) {
             map.setMyLocationEnabled(true)
             fusedLocationClient.lastLocation
@@ -144,6 +137,9 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
+    /*
+    * MAP STYLING FUNCTIONS
+    * */
     private fun setPoiClick(map: GoogleMap){
         map.setOnPoiClickListener { poi ->
             selectedPoi = poi
@@ -157,6 +153,37 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
+    private fun setMapLongClick(map: GoogleMap) {
+        map.setOnMapLongClickListener { latLng ->
+            // TODO: In the future , maybe add code to let the user add a title for it
+            val title = createTitle(latLng)
+            selectedPoi = PointOfInterest(latLng, title, title)
+            map.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .title(getString(R.string.dropped_pin))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+            )
+            binding.saveButton.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setMapStyle(map: GoogleMap){
+        try {
+            // Customize the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+            if(!success){
+                Log.e(TAG, "Style parsing failed")
+            }
+        } catch (e:Resources.NotFoundException){
+            Log.e(TAG, "Unable to find style. Error: ", e)
+        }
+    }
+
+    /*
+    * LOCATION PERMISSION FUNCTIONS
+    * */
     private fun isPermissionGranted(): Boolean {
         return ContextCompat.
         checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED

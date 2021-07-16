@@ -29,6 +29,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.BuildConfig
 import com.udacity.project4.R
 import com.udacity.project4.base.BaseFragment
+import com.udacity.project4.base.NavigationCommand
 import com.udacity.project4.databinding.FragmentSelectLocationBinding
 import com.udacity.project4.locationreminders.geofence.GeofenceBroadcastReceiver
 import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
@@ -63,11 +64,11 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         val GEOFENCE_EXPIRATION_MILLISECONDS: Long = TimeUnit.HOURS.toMillis(2)
     }
 
-    private val geofencePendingIntent: PendingIntent by lazy {
+    /*private val geofencePendingIntent: PendingIntent by lazy {
         val intent = Intent(requireContext(), GeofenceBroadcastReceiver::class.java)
         intent.action = ACTION_GEOFENCE_EVENT
         PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-    }
+    }*/
 
     private val runningQOrLater = android.os.Build.VERSION.SDK_INT >=
             android.os.Build.VERSION_CODES.Q
@@ -95,13 +96,13 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         binding.saveButton.setOnClickListener {
             // TODO: call this function after the user confirms on the selected location //DONE
             onLocationSelected()
-            addGeofence()
+            //addGeofence()
         }
 
         return binding.root
     }
 
-    private fun addGeofence() {
+   /* private fun addGeofence() {
        val geofence = Geofence.Builder()
            .setRequestId(selectedPoi.placeId)
            .setCircularRegion(
@@ -121,9 +122,9 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             addOnCompleteListener {
                 geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                     addOnSuccessListener {
-                       /* Toast.makeText(requireContext(), R.string.geofences_added,
+                       *//* Toast.makeText(requireContext(), R.string.geofences_added,
                             Toast.LENGTH_SHORT)
-                            .show()*/
+                            .show()*//*
                         Log.d("Add Geofence", geofence.requestId)
                     }
                     addOnFailureListener {
@@ -137,7 +138,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             }
         }
 
-    }
+    }*/
 
     private fun onLocationSelected() {
         //        TODO: When the user confirms on the selected location,

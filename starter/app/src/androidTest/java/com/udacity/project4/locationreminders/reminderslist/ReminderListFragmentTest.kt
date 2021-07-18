@@ -6,6 +6,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
@@ -47,19 +48,15 @@ class ReminderListFragmentTest {
 
     private lateinit var dataSource: ReminderDataSource
 
-    // An idling resource that waits for Data Binding to have no pending bindings.
-    private val dataBindingIdlingResource = DataBindingIdlingResource()
-
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
-    fun initializeRepository(){
+    fun initializeRepository() {
         stopKoin()
-
         /**
-        * Use Koin as a Service Locator
-        * */
+         * Use Koin as a Service Locator
+         * */
         val myModule = module {
             viewModel {
                 RemindersListViewModel(getApplicationContext(), get() as ReminderDataSource)
@@ -78,26 +75,6 @@ class ReminderListFragmentTest {
         runBlocking {
             dataSource.deleteAllReminders()
         }
-        }
-
-    /**
-     * Idling resources tell Espresso that the app is idle or busy. This is needed when operations
-     * are not scheduled in the main Looper (for example when executed on a different thread).
-     * Whenever either of those Resources are busy, Espresso will wait until they are idle.
-     */
-    @Before
-    fun registerIdlingResource() {
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
-        IdlingRegistry.getInstance().register(dataBindingIdlingResource)
-    }
-
-    /**
-     * Unregister your Idling Resource so it can be garbage collected and does not leak any memory.
-     */
-    @After
-    fun unregisterIdlingResource() {
-        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
-        IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
     }
 
     val reminder = ReminderDTO("title", "description", "location", 10.0, 10.0)
@@ -109,10 +86,7 @@ class ReminderListFragmentTest {
         dataSource.saveReminder(reminder)
 
         // WHEN Launching the fragment
-        val fragmentScenario = launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme)
-
-        // Monitor the change in the fragment
-        dataBindingIdlingResource.monitorFragment(fragmentScenario)
+        launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme)
 
         // THEN the reminder is displayed
         onView(withId(R.id.noDataTextView)).check(matches(isDisplayed()))
@@ -122,9 +96,7 @@ class ReminderListFragmentTest {
 
     }
 
-
-    }
-
+}
 
 
 //    TODO: test the navigation of the fragments.

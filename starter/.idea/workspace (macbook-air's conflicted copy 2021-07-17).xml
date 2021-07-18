@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="save" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="21749a27-7dae-41ae-9bfa-646d15c8c599" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[VirtualDevicePath@/Users/georgeampartzidis/.android/avd/Nexus_6P_API_23.avd]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="resourceFile" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1vD0H5adYwNwGXO3x26l6jP3dOo" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/test/java/com/udacity/project4/locationreminders/savereminder" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.udacity.project4.locationreminders.savereminder" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.udacity.project4.authentication" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="com.udacity.project4.locationreminders" />
+      <recent name="com.udacity.project4.locationreminders.reminderslist" />
+      <recent name="com.udacity.project4.authentication" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Android JUnit.RemindersListViewModelTest">
+    <configuration name="RemindersListViewModelTest" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Project4.app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.udacity.project4.locationreminders.reminderslist.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.udacity.project4.locationreminders.reminderslist" />
+      <option name="MAIN_CLASS_NAME" value="com.udacity.project4.locationreminders.reminderslist.RemindersListViewModelTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SaveReminderViewModelTest" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Project4.app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.udacity.project4.locationreminders.savereminder.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.udacity.project4.locationreminders.savereminder" />
+      <option name="MAIN_CLASS_NAME" value="com.udacity.project4.locationreminders.savereminder.SaveReminderViewModelTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SaveReminderViewModelTest.addNewReminderNullTitle_producesErrorTitle" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Project4.app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.udacity.project4.locationreminders.savereminder.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.udacity.project4.locationreminders.savereminder" />
+      <option name="MAIN_CLASS_NAME" value="com.udacity.project4.locationreminders.savereminder.SaveReminderViewModelTest" />
+      <option name="METHOD_NAME" value="addNewReminderNullTitle_producesErrorTitle" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SaveReminderViewModelTest.addNewReminder_savesNewReminder" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Project4.app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.udacity.project4.locationreminders.savereminder.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.udacity.project4.locationreminders.savereminder" />
+      <option name="MAIN_CLASS_NAME" value="com.udacity.project4.locationreminders.savereminder.SaveReminderViewModelTest" />
+      <option name="METHOD_NAME" value="addNewReminder_savesNewReminder" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="Project4.app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Android JUnit.RemindersListViewModelTest" />
+        <item itemvalue="Android JUnit.SaveReminderViewModelTest" />
+        <item itemvalue="Android JUnit.SaveReminderViewModelTest.addNewReminderNullTitle_producesErrorTitle" />
+        <item itemvalue="Android JUnit.SaveReminderViewModelTest.addNewReminder_savesNewReminder" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="21749a27-7dae-41ae-9bfa-646d15c8c599" name="Default Changelist" comment="" />
+      <created>1626081260664</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1626081260664</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Added API key">
+      <created>1626083554253</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1626083554253</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Fixed numerous dependencies issues">
+      <created>1626087194420</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1626087194420</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added login with Firebase whn clicking on button from AuthenticationActivity">
+      <created>1626095799211</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1626095799211</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added login with Firebase whn clicking on button from AuthenticationActivity">
+      <created>1626096907448</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1626096907448</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Moved implementation of logging in from Activity to Fragment">
+      <created>1626100826491</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1626100826491</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Moved implementation of logging in from Activity to Fragment">
+      <created>1626162136677</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1626162136677</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Code cleanup">
+      <created>1626162710382</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1626162710382</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Code cleanup">
+      <created>1626163931562</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1626163931562</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Moved back login/register to AuthenticationActivity.kt">
+      <created>1626172989008</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1626172989008</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Updated dependencies">
+      <created>1626180622641</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1626180622641</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Go to RemindersActivity when user has already logged in">
+      <created>1626180841195</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1626180841195</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Implemented logging out">
+      <created>1626211134216</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1626211134216</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Added google maps (still need to resolve issue with Authorization Failure)">
+      <created>1626217507609</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1626217507609</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Code cleanup">
+      <created>1626251669800</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1626251669800</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Added message to user to add POI">
+      <created>1626265003421</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1626265003421</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Save Poi when selected, notifying the ViewModel">
+      <created>1626269141816</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1626269141816</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Added saving random markers, map styling">
+      <created>1626340013823</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1626340013823</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Added different map types">
+      <created>1626340556479</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1626340556479</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Added additional location checking, added geofences">
+      <created>1626356182078</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1626356182078</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Implemented onReceive to receive geofencing events, added sending notification when entering geofence">
+      <created>1626381106528</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1626381106528</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Added checking for empty description, moved adding geofence to SaveReminderFragment">
+      <created>1626426902924</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1626426902924</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Added UnitTests for SaveReminderViewModel">
+      <created>1626522130423</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1626522130423</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Added reminder values for testing">
+      <created>1626522440134</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1626522440134</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Test commit">
+      <created>1626523787896</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1626523787896</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Added test for RemindersList, not working">
+      <created>1626529095176</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1626529095176</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added API key" />
+    <MESSAGE value="Fixed numerous dependencies issues" />
+    <MESSAGE value="Added login with Firebase whn clicking on button from AuthenticationActivity" />
+    <MESSAGE value="Moved implementation of logging in from Activity to Fragment" />
+    <MESSAGE value="Moved back login/register to AuthenticationActivity.kt" />
+    <MESSAGE value="Updated dependencies" />
+    <MESSAGE value="Go to RemindersActivity when user has already logged in" />
+    <MESSAGE value="Implemented logging out" />
+    <MESSAGE value="Added google maps (still need to resolve issue with Authorization Failure)" />
+    <MESSAGE value="Code cleanup" />
+    <MESSAGE value="Added message to user to add POI" />
+    <MESSAGE value="Save Poi when selected, notifying the ViewModel" />
+    <MESSAGE value="Added saving random markers, map styling" />
+    <MESSAGE value="Added different map types" />
+    <MESSAGE value="Added additional location checking, added geofences" />
+    <MESSAGE value="Implemented onReceive to receive geofencing events, added sending notificstion when entering geofence" />
+    <MESSAGE value="Implemented onReceive to receive geofencing events, added sending notification when entering geofence" />
+    <MESSAGE value="Added checking for empty description, moved adding geofence to SaveReminderFragment" />
+    <MESSAGE value="Added UnitTests for SaveReminderViewModel" />
+    <MESSAGE value="Added reminder values for testing" />
+    <MESSAGE value="Test commit" />
+    <MESSAGE value="Added test for RemindersList, not working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added test for RemindersList, not working" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="693" y="269" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1626519206824">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="693" y="269" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626519206824" />
+    <state x="128" y="125" width="1654" height="770" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1626521345791">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="128" y="125" width="1654" height="770" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626521345791" />
+    <state x="747" y="230" key="#com.intellij.ide.util.MemberChooser" timestamp="1626213531388">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="747" y="230" key="#com.intellij.ide.util.MemberChooser/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626213531388" />
+    <state x="741" y="395" width="637" height="229" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1626099196506">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="741" y="395" width="637" height="229" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626099196506" />
+    <state x="462" y="175" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1626527685039">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state x="462" y="175" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1440.801@0.23.1440.801" timestamp="1626527685039" />
+    <state x="546" y="282" key="AndroidCreateResourceDirectoryDialog" timestamp="1626337620940">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="546" y="282" key="AndroidCreateResourceDirectoryDialog/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626337620940" />
+    <state x="793" y="291" key="AndroidCreateXmlResourceDialog" timestamp="1626265702126">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="793" y="291" key="AndroidCreateXmlResourceDialog/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626265702126" />
+    <state x="304" y="23" key="CommitChangelistDialog2" timestamp="1626529094988">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state x="304" y="23" key="CommitChangelistDialog2/0.23.1440.801@0.23.1440.801" timestamp="1626529094988" />
+    <state width="1368" height="197" key="GridCell.Tab.0.bottom" timestamp="1626559377739">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state width="1368" height="197" key="GridCell.Tab.0.bottom/0.23.1440.801@0.23.1440.801" timestamp="1626559377739" />
+    <state width="1812" height="353" key="GridCell.Tab.0.bottom/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626522098535" />
+    <state width="1368" height="197" key="GridCell.Tab.0.center" timestamp="1626559377737">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state width="1368" height="197" key="GridCell.Tab.0.center/0.23.1440.801@0.23.1440.801" timestamp="1626559377737" />
+    <state width="1812" height="353" key="GridCell.Tab.0.center/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626522098534" />
+    <state width="1368" height="197" key="GridCell.Tab.0.left" timestamp="1626559377735">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state width="1368" height="197" key="GridCell.Tab.0.left/0.23.1440.801@0.23.1440.801" timestamp="1626559377735" />
+    <state width="1812" height="353" key="GridCell.Tab.0.left/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626522098534" />
+    <state width="1368" height="197" key="GridCell.Tab.0.right" timestamp="1626559377738">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state width="1368" height="197" key="GridCell.Tab.0.right/0.23.1440.801@0.23.1440.801" timestamp="1626559377738" />
+    <state width="1812" height="353" key="GridCell.Tab.0.right/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626522098535" />
+    <state x="420" y="206" key="Vcs.Push.Dialog.v2" timestamp="1626559368312">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state x="420" y="206" key="Vcs.Push.Dialog.v2/0.23.1440.801@0.23.1440.801" timestamp="1626559368312" />
+    <state x="560" y="247" key="Vcs.Push.Dialog.v2/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626522445290" />
+    <state x="756" y="292" key="chooseDestDirectoryDialog" timestamp="1626438292233">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="756" y="292" key="chooseDestDirectoryDialog/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626438292233" />
+    <state x="659" y="265" width="781" height="490" key="find.popup" timestamp="1626515522362">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="659" y="265" width="781" height="490" key="find.popup/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626515522362" />
+    <state width="300" height="37" key="javadoc.popup.new" timestamp="1626529085468">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state width="300" height="36" key="javadoc.popup.new/0.23.1440.797@0.23.1440.797" timestamp="1626526412544" />
+    <state width="300" height="37" key="javadoc.popup.new/0.23.1440.798@0.23.1440.798" timestamp="1626528248872" />
+    <state width="300" height="37" key="javadoc.popup.new/0.23.1440.801@0.23.1440.801" timestamp="1626529085468" />
+    <state x="641" y="216" key="org.jetbrains.kotlin.idea.testIntegration.KotlinCreateTestDialog" timestamp="1626438297927">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="641" y="216" key="org.jetbrains.kotlin.idea.testIntegration.KotlinCreateTestDialog/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626438297927" />
+    <state x="625" y="238" width="670" height="676" key="search.everywhere.popup" timestamp="1626088606283">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="625" y="238" width="670" height="676" key="search.everywhere.popup/0.25.1920.970/-1920.25.1920.1055@0.25.1920.970" timestamp="1626088606283" />
+  </component>
+</project>

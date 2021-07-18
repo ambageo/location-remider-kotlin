@@ -6,9 +6,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.udacity.project4.locationreminders.MainCoroutineRule
 import com.udacity.project4.locationreminders.data.FakeDataSource
 import com.udacity.project4.locationreminders.data.dto.ReminderDTO
+import com.udacity.project4.locationreminders.data.dto.Result
 import com.udacity.project4.locationreminders.getOrAwaitValue
 import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.Assert.*
@@ -45,7 +47,7 @@ class RemindersListViewModelTest {
     }
 
     @Test
-    fun loadReminders_addsToList(){
+    fun loadReminders_addsToList() = mainCoroutineRule.runBlockingTest{
         remindersList.add(reminder1)
         remindersList.add(reminder2)
 
@@ -58,7 +60,22 @@ class RemindersListViewModelTest {
 
         mainCoroutineRule.resumeDispatcher()
         assertThat(viewModel.showLoading.getOrAwaitValue(), `is`(false))
+        assertThat(viewModel.showNoData.getOrAwaitValue(), `is`(false))
     }
 
+    @Test
+    fun noReminders_showsNoData() = mainCoroutineRule.runBlockingTest {
+        dataSource.deleteAllReminders()
+        viewModel.loadReminders()
+        assertThat(viewModel.showNoData.getOrAwaitValue(), `is`(true))
+    }
 
-}
+    @Test
+    fun unavailableReminders_showsErrorMessage() = mainCoroutineRule.runBlockingTest {
+        dataSource.setShouldReturnError(true)
+        viewModel.loadReminders()
+        assertThat(viewModel.showSnackBar.value, `is`("Reminders not found"))
+    }
+
+    }
+

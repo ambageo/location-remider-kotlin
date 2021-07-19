@@ -37,6 +37,8 @@ import org.koin.core.context.GlobalContext
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
+import org.koin.test.KoinTest
+import org.koin.test.get
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 
@@ -44,7 +46,7 @@ import org.mockito.Mockito.*
 @ExperimentalCoroutinesApi
 //UI Testing
 @MediumTest
-class ReminderListFragmentTest {
+class ReminderListFragmentTest: KoinTest {
 
     private lateinit var dataSource: ReminderDataSource
 
@@ -71,7 +73,7 @@ class ReminderListFragmentTest {
             modules(listOf(myModule))
         }
 
-        dataSource = GlobalContext.get().koin.get()
+        dataSource = get()
         runBlocking {
             dataSource.deleteAllReminders()
         }

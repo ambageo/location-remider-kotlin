@@ -30,7 +30,7 @@ class RemindersDaoTest {
     var instantExecutorRule= InstantTaskExecutorRule()
 
     @Before
-    fun initDb(){
+    fun setUpDb(){
         // Create and use an in- memory database which is only used for testing
         database = Room.inMemoryDatabaseBuilder(
             getApplicationContext(), RemindersDatabase::class.java

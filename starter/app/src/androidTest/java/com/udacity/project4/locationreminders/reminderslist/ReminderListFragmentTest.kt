@@ -6,7 +6,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -24,22 +23,19 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.not
-import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.context.GlobalContext
+
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
 
-import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 
 @RunWith(AndroidJUnit4::class)
@@ -109,7 +105,7 @@ class ReminderListFragmentTest: KoinTest {
         onView(withId(R.id.noDataTextView)).check(matches(isDisplayed()))
     }
 
-    //    TODO: test the navigation of the fragments.
+    //    TODO: test the navigation of the fragments //DONE
     @Test
     fun clickOnFab_navigatesToSaveReminderFragment() {
         val scenario =

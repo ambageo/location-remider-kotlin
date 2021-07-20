@@ -76,7 +76,7 @@ class SaveReminderFragmentTest : KoinTest{
     @Test
     fun noTitle_ShowsTitleError(){
         val navController = mock(NavController::class.java)
-        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
+        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme) as FragmentScenario<Fragment>
 
         dataBindingIdlingResource.monitorFragment(scenario)
 
@@ -92,7 +92,7 @@ class SaveReminderFragmentTest : KoinTest{
     @Test
     fun noDescription_ShowsDescriptionError() {
         val navController = mock(NavController::class.java)
-        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
+        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme) as FragmentScenario<Fragment>
        dataBindingIdlingResource.monitorFragment(scenario)
         scenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)
@@ -106,7 +106,7 @@ class SaveReminderFragmentTest : KoinTest{
     fun validReminder_SavesReminder(){
         // GIVEN having launched the SaveReminderFragment
         val navController = mock(NavController::class.java)
-        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
+        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme) as FragmentScenario<Fragment>
         dataBindingIdlingResource.monitorFragment(scenario)
 
         scenario.onFragment {
@@ -114,7 +114,8 @@ class SaveReminderFragmentTest : KoinTest{
         }
         // WHEN we have a valid reminder
         val reminder = ReminderDataItem("title", "description", "location", 10.0, 10.0)
-        viewModel.saveReminder(reminder)
+
+        viewModel.validateAndSaveReminder(reminder)
         // WHEN clicking to save, it does so
         onView(withId(R.id.saveReminder)).perform(click())
         assertThat(viewModel.showToast.value, `is`("Reminder Saved !"))

@@ -105,7 +105,9 @@ fun DataBindingIdlingResource.monitorActivity(
  * Sets the fragment from a [FragmentScenario] to be used from [DataBindingIdlingResource].
  */
 fun DataBindingIdlingResource.monitorFragment(fragmentScenario: FragmentScenario<Fragment>) {
-    fragmentScenario.onFragment { fragment ->
-        activity = fragment.requireActivity()
-    }
+    fragmentScenario.onFragment(
+        FragmentScenario.FragmentAction { fragment ->
+            activity = fragment.requireActivity()
+        }
+    )
 }

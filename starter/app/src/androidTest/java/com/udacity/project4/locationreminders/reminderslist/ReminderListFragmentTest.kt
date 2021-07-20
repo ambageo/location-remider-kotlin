@@ -92,7 +92,7 @@ class ReminderListFragmentTest: KoinTest {
         }
 
         // WHEN Launching the fragment
-        val scenario = launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme)
+        val scenario = launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme) as FragmentScenario<Fragment>
         val navController = mock(NavController::class.java)
         scenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)

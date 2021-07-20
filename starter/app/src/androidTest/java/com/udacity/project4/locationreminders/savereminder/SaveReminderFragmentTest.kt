@@ -9,8 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.udacity.project4.R
@@ -19,7 +18,7 @@ import com.udacity.project4.locationreminders.data.local.LocalDB
 import com.udacity.project4.locationreminders.data.local.RemindersLocalRepository
 import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
 import com.udacity.project4.util.DataBindingIdlingResource
-import com.udacity.project4.util.monitorFragment
+
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.core.Is.`is`
 import org.junit.Before
@@ -73,12 +72,18 @@ class SaveReminderFragmentTest : KoinTest{
         }
     }
 
+    private fun DataBindingIdlingResource.monitorSaveReminderFragment(fragmentScenario: FragmentScenario<SaveReminderFragment>) {
+        fragmentScenario.onFragment { fragment ->
+            activity = fragment.requireActivity()
+        }
+    }
+
     @Test
     fun noTitle_ShowsTitleError(){
         val navController = mock(NavController::class.java)
-        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme) as FragmentScenario<Fragment>
+        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
 
-        dataBindingIdlingResource.monitorFragment(scenario)
+        dataBindingIdlingResource.monitorSaveReminderFragment(scenario)
 
         scenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)
@@ -92,12 +97,13 @@ class SaveReminderFragmentTest : KoinTest{
     @Test
     fun noDescription_ShowsDescriptionError() {
         val navController = mock(NavController::class.java)
-        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme) as FragmentScenario<Fragment>
-       dataBindingIdlingResource.monitorFragment(scenario)
+        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
+       dataBindingIdlingResource.monitorSaveReminderFragment(scenario)
         scenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)
         }
         onView(withId(R.id.reminderTitle)).perform(typeText("title"))
+        closeSoftKeyboard()
         //onView(withId(R.id.snackbar_text)).check(matches(withText(R.string.err_enter_description)))
         assertThat(viewModel.showSnackBarInt.getOrAwaitValue(), `is`(R.string.err_enter_description))
     }
@@ -106,8 +112,8 @@ class SaveReminderFragmentTest : KoinTest{
     fun validReminder_SavesReminder(){
         // GIVEN having launched the SaveReminderFragment
         val navController = mock(NavController::class.java)
-        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme) as FragmentScenario<Fragment>
-        dataBindingIdlingResource.monitorFragment(scenario)
+        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
+        dataBindingIdlingResource.monitorSaveReminderFragment(scenario)
 
         scenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)

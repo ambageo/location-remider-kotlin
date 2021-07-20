@@ -82,6 +82,12 @@ class ReminderListFragmentTest: KoinTest {
         }
     }
 
+    private fun DataBindingIdlingResource.monitorReminderListFragment(fragmentScenario: FragmentScenario<ReminderListFragment>) {
+        fragmentScenario.onFragment { fragment ->
+            activity = fragment.requireActivity()
+        }
+    }
+
     //    TODO: test the displayed data on the UI.
     @Test
     fun showRemindersInUI() = runBlockingTest {
@@ -92,20 +98,19 @@ class ReminderListFragmentTest: KoinTest {
         }
 
         // WHEN Launching the fragment
-        val scenario = launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme) as FragmentScenario<Fragment>
+        val scenario = launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme)
         val navController = mock(NavController::class.java)
         scenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)
         }
-        dataBindingIdlingResource.monitorFragment(scenario)
-
+        dataBindingIdlingResource.monitorReminderListFragment(scenario)
 
 
         // THEN the reminder is displayed
         onView(withId(R.id.noDataTextView)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.reminderTitle)).check(matches(withText("title")))
-        onView(withId(R.id.reminderDescription)).check(matches(withText("description")))
-        onView(withId(R.id.selectLocation)).check(matches(withText("location")))
+        onView(withText(reminder.title)).check(matches(withText("title")))
+        onView(withText(reminder.description)).check(matches(withText("description")))
+        onView(withText(reminder.location)).check(matches(withText("location")))
 
     }
 

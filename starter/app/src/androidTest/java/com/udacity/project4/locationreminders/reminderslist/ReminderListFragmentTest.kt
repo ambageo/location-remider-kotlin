@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -63,6 +64,7 @@ class ReminderListFragmentTest: KoinTest {
                 RemindersListViewModel(getApplicationContext(), get() as ReminderDataSource)
             }
 
+            // This needs to be manually casted (even though it seems useless)
             single { RemindersLocalRepository(get()) as ReminderDataSource}
             single { LocalDB.createRemindersDao(getApplicationContext()) }
         }
@@ -103,17 +105,30 @@ class ReminderListFragmentTest: KoinTest {
     fun noReminders_showsEmptyData() {
         // WHEN Launching the fragment
         launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme)
+        // THEN no data textview is displayed
         onView(withId(R.id.noDataTextView)).check(matches(isDisplayed()))
     }
 
+    //    TODO: test the navigation of the fragments.
+    @Test
+    fun clickOnFab_navigatesToSaveReminderFragment() {
+        val scenario =
+            launchFragmentInContainer<ReminderListFragment>(Bundle(), R.style.AppTheme)
+        val navController = mock(NavController::class.java)
 
+        scenario.onFragment {
+            Navigation.setViewNavController(it.view!!, navController)
+        }
 
-
+        // WHEN clicking on the fab
+        onView(withId(R.id.addReminderFAB)).perform(click())
+        // THEN we navigate to SaveReminderFragment
+        verify(navController).navigate(ReminderListFragmentDirections.toSaveReminder())
+    }
 
 }
 
 
-//    TODO: test the navigation of the fragments.
 
 
 //    TODO: add testing for the error messages.

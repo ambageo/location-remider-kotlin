@@ -2,6 +2,8 @@ package com.udacity.project4.locationreminders.savereminder
 
 import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -91,7 +93,7 @@ class SaveReminderFragmentTest : KoinTest{
     fun noDescription_ShowsDescriptionError() {
         val navController = mock(NavController::class.java)
         val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
-        dataBindingIdlingResource.monitorFragment(scenario)
+       dataBindingIdlingResource.monitorFragment(scenario)
         scenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)
         }
@@ -106,6 +108,7 @@ class SaveReminderFragmentTest : KoinTest{
         val navController = mock(NavController::class.java)
         val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
         dataBindingIdlingResource.monitorFragment(scenario)
+
         scenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)
         }

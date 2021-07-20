@@ -23,7 +23,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.IdlingResource
-import com.udacity.project4.locationreminders.savereminder.SaveReminderFragment
 import java.util.UUID
 
 /**
@@ -105,7 +104,7 @@ fun DataBindingIdlingResource.monitorActivity(
 /**
  * Sets the fragment from a [FragmentScenario] to be used from [DataBindingIdlingResource].
  */
-fun DataBindingIdlingResource.monitorFragment(fragmentScenario: FragmentScenario<SaveReminderFragment>) {
+fun DataBindingIdlingResource.monitorFragment(fragmentScenario: FragmentScenario<Fragment>) {
     fragmentScenario.onFragment { fragment ->
         activity = fragment.requireActivity()
     }

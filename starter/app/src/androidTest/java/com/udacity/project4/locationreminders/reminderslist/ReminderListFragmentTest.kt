@@ -3,6 +3,8 @@ package com.udacity.project4.locationreminders.reminderslist
 
 import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -18,6 +20,8 @@ import com.udacity.project4.locationreminders.data.ReminderDataSource
 import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 import com.udacity.project4.locationreminders.data.local.LocalDB
 import com.udacity.project4.locationreminders.data.local.RemindersLocalRepository
+import com.udacity.project4.util.DataBindingIdlingResource
+import com.udacity.project4.util.monitorFragment
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -45,6 +49,7 @@ import org.mockito.Mockito.*
 class ReminderListFragmentTest: KoinTest {
 
     private lateinit var dataSource: ReminderDataSource
+    private val dataBindingIdlingResource = DataBindingIdlingResource()
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -87,7 +92,14 @@ class ReminderListFragmentTest: KoinTest {
         }
 
         // WHEN Launching the fragment
-        launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme)
+        val scenario = launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme)
+        val navController = mock(NavController::class.java)
+        scenario.onFragment {
+            Navigation.setViewNavController(it.view!!, navController)
+        }
+        dataBindingIdlingResource.monitorFragment(scenario)
+
+
 
         // THEN the reminder is displayed
         onView(withId(R.id.noDataTextView)).check(matches(not(isDisplayed())))

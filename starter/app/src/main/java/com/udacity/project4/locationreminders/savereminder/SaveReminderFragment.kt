@@ -93,37 +93,39 @@ class SaveReminderFragment : BaseFragment() {
     }
 
     private fun addGeofence() {
-        val geofence = Geofence.Builder()
-            .setRequestId(reminderData.id)
-            .setCircularRegion(
-               reminderData.latitude!!, reminderData.longitude!!,
-                SelectLocationFragment.GEOFENCE_RADIUS_METERS
-            )
-            .setExpirationDuration(SelectLocationFragment.GEOFENCE_EXPIRATION_MILLISECONDS)
-            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-            .build()
+        if(reminderData.latitude !=null && reminderData.longitude != null){
+            val geofence = Geofence.Builder()
+                .setRequestId(reminderData.id)
+                .setCircularRegion(
+                    reminderData.latitude!!, reminderData.longitude!!,
+                    SelectLocationFragment.GEOFENCE_RADIUS_METERS
+                )
+                .setExpirationDuration(SelectLocationFragment.GEOFENCE_EXPIRATION_MILLISECONDS)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                .build()
 
-        // Build the geofence request
-        val geofencingRequest = GeofencingRequest.Builder()
-            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-            .addGeofence(geofence)
-            .build()
+            // Build the geofence request
+            val geofencingRequest = GeofencingRequest.Builder()
+                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+                .addGeofence(geofence)
+                .build()
 
-        // Remove any geofences already associated to the pending intent
-        geofencingClient.removeGeofences(geofencePendingIntent)?.run {
-            addOnCompleteListener {
-                geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
-                    addOnSuccessListener {
-                        /* Toast.makeText(requireContext(), R.string.geofences_added,
-                             Toast.LENGTH_SHORT)
-                             .show()*/
-                        Log.d(TAG, "Added geofence ${geofence.requestId}")
-                    }
-                    addOnFailureListener {
-                        Toast.makeText(requireActivity(), R.string.geofences_not_added,
-                            Toast.LENGTH_SHORT).show()
-                        if ((it.message != null)) {
-                            Log.w(TAG, it.message.toString())
+            // Remove any geofences already associated to the pending intent
+            geofencingClient.removeGeofences(geofencePendingIntent)?.run {
+                addOnCompleteListener {
+                    geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
+                        addOnSuccessListener {
+                            /* Toast.makeText(requireContext(), R.string.geofences_added,
+                                 Toast.LENGTH_SHORT)
+                                 .show()*/
+                            Log.d(TAG, "Added geofence ${geofence.requestId}")
+                        }
+                        addOnFailureListener {
+                            Toast.makeText(requireActivity(), R.string.geofences_not_added,
+                                Toast.LENGTH_SHORT).show()
+                            if ((it.message != null)) {
+                                Log.w(TAG, it.message.toString())
+                            }
                         }
                     }
                 }

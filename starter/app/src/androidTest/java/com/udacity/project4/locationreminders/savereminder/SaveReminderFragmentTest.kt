@@ -91,7 +91,7 @@ class SaveReminderFragmentTest : KoinTest{
 
         onView(withId(R.id.saveReminder)).perform(click())
         onView(withId(R.id.snackbar_text)).check(matches(withText(R.string.err_enter_title)))
-        assertThat(viewModel.showSnackBarInt.value, `is`(R.string.err_enter_title))
+        assertThat(viewModel.showSnackBarInt.getOrAwaitValue(), `is`(R.string.err_enter_title))
     }
 
     @Test

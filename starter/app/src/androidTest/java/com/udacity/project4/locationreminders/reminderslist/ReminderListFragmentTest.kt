@@ -22,6 +22,7 @@ import com.udacity.project4.locationreminders.data.local.RemindersLocalRepositor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
+import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -72,29 +73,42 @@ class ReminderListFragmentTest: KoinTest {
         }
 
         dataSource = get()
+
         runBlocking {
             dataSource.deleteAllReminders()
         }
     }
 
-    val reminder = ReminderDTO("title", "description", "location", 10.0, 10.0)
-
     //    TODO: test the displayed data on the UI.
     @Test
     fun showRemindersInUI() = runBlockingTest {
+        val reminder = ReminderDTO("title", "description", "location", 10.0, 10.0)
         // GIVEN a reminder
-        dataSource.saveReminder(reminder)
+        runBlocking {
+            dataSource.saveReminder(reminder)
+        }
 
         // WHEN Launching the fragment
         launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme)
 
         // THEN the reminder is displayed
-        onView(withId(R.id.noDataTextView)).check(matches(isDisplayed()))
+        onView(withId(R.id.noDataTextView)).check(matches(not(isDisplayed())))
         onView(withId(R.id.reminderTitle)).check(matches(withText("title")))
         onView(withId(R.id.reminderDescription)).check(matches(withText("description")))
         onView(withId(R.id.selectLocation)).check(matches(withText("location")))
 
     }
+
+    @Test
+    fun noReminders_showsEmptyData() {
+        // WHEN Launching the fragment
+        launchFragmentInContainer<ReminderListFragment>(Bundle.EMPTY, R.style.AppTheme)
+        onView(withId(R.id.noDataTextView)).check(matches(isDisplayed()))
+    }
+
+
+
+
 
 }
 

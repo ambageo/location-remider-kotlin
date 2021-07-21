@@ -103,6 +103,7 @@ class SaveReminderFragmentTest : KoinTest{
         }
         onView(withId(R.id.reminderTitle)).perform(typeText("title"))
         closeSoftKeyboard()
+        onView(withId(R.id.saveReminder)).perform(click())
         onView(withId(R.id.snackbar_text)).check(matches(withText(R.string.err_enter_description)))
     }
 

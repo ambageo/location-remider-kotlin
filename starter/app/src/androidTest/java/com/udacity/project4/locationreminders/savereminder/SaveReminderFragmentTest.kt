@@ -8,6 +8,7 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -102,7 +103,7 @@ class SaveReminderFragmentTest : KoinTest{
             Navigation.setViewNavController(it.view!!, navController)
         }
         onView(withId(R.id.reminderTitle)).perform(typeText("title"))
-        closeSoftKeyboard()
+        Espresso.closeSoftKeyboard()
         onView(withId(R.id.saveReminder)).perform(click())
         onView(withId(R.id.snackbar_text)).check(matches(withText(R.string.err_enter_description)))
     }

@@ -51,6 +51,11 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
 
             sendNotification(geofencingEvent.triggeringGeofences)
         }
+
+        if(geofencingEvent.geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
+            Log.d(TAG, "Inside geofence")
+        }
+
     }
 
     //TODO: get the request id of the current geofence //DONE

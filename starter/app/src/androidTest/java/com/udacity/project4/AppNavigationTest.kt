@@ -24,6 +24,7 @@ import com.udacity.project4.locationreminders.savereminder.SaveReminderFragment
 import com.udacity.project4.locationreminders.savereminder.SaveReminderFragmentDirections
 import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
 import com.udacity.project4.util.DataBindingIdlingResource
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.core.Is
 import org.junit.Before

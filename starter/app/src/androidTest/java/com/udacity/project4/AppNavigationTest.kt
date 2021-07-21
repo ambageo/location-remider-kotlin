@@ -1,40 +1,48 @@
-package com.udacity.project4.locationreminders.savereminder
+package com.udacity.project4
 
 import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
-import com.udacity.project4.R
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
 import com.udacity.project4.locationreminders.data.ReminderDataSource
 import com.udacity.project4.locationreminders.data.local.LocalDB
 import com.udacity.project4.locationreminders.data.local.RemindersLocalRepository
-import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
+import com.udacity.project4.locationreminders.reminderslist.ReminderListFragment
+import com.udacity.project4.locationreminders.reminderslist.ReminderListFragmentDirections
+import com.udacity.project4.locationreminders.reminderslist.RemindersListViewModel
+import com.udacity.project4.locationreminders.savereminder.SaveReminderFragment
+import com.udacity.project4.locationreminders.savereminder.SaveReminderFragmentDirections
+import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
 import com.udacity.project4.util.DataBindingIdlingResource
-
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.core.Is.`is`
+import org.hamcrest.core.Is
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
-import org.mockito.Mockito.mock
+import org.mockito.Mockito.*
 
-class SaveReminderFragmentTest : KoinTest{
+@RunWith(AndroidJUnit4::class)
+@LargeTest
+class AppNavigationTest : KoinTest {
+
     private lateinit var dataSource: ReminderDataSource
     private lateinit var viewModel: SaveReminderViewModel
 
@@ -63,6 +71,7 @@ class SaveReminderFragmentTest : KoinTest{
             androidContext(ApplicationProvider.getApplicationContext())
             modules(listOf(myModule))
         }
+
         dataSource = get()
 
         viewModel = SaveReminderViewModel(ApplicationProvider.getApplicationContext(), dataSource)
@@ -79,9 +88,10 @@ class SaveReminderFragmentTest : KoinTest{
     }
 
     @Test
-    fun noTitle_ShowsTitleError(){
+    fun addReminder_addLocationFromMap_savesReminder() {
         val navController = mock(NavController::class.java)
-        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
+        val scenario =
+            launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
 
         dataBindingIdlingResource.monitorSaveReminderFragment(scenario)
 
@@ -89,42 +99,18 @@ class SaveReminderFragmentTest : KoinTest{
             Navigation.setViewNavController(it.view!!, navController)
         }
 
-        onView(withId(R.id.saveReminder)).perform(click())
-        onView(withId(R.id.snackbar_text)).check(matches(withText(R.string.err_enter_title)))
-    }
-
-    @Test
-    fun noDescription_ShowsDescriptionError() {
-        val navController = mock(NavController::class.java)
-        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
-       dataBindingIdlingResource.monitorSaveReminderFragment(scenario)
-        scenario.onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
+        // WHEN adding title and description
         onView(withId(R.id.reminderTitle)).perform(typeText("title"))
-        closeSoftKeyboard()
-        onView(withId(R.id.snackbar_text)).check(matches(withText(R.string.err_enter_description)))
-    }
+        onView(withId(R.id.reminderDescription)).perform(typeText("description"))
+        // Clicking on the add Fab navigates us to SaveReminderFragment
+        onView(withId(R.id.selectLocation)).perform(click())
+        verify(navController).navigate(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
+        // perform long click to add marker
+        onView(withId(R.id.map)).perform(longClick())
 
-    @Test
-    fun validReminder_SavesReminder(){
-        // GIVEN having launched the SaveReminderFragment
-        val navController = mock(NavController::class.java)
-        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle.EMPTY, R.style.AppTheme)
-        dataBindingIdlingResource.monitorSaveReminderFragment(scenario)
-
-        scenario.onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
-        // WHEN we have a valid reminder
-        val reminder = ReminderDataItem("title", "description", "location", 10.0, 10.0)
-
-        viewModel.validateAndSaveReminder(reminder)
-        // WHEN clicking to save, it does so
+        onView(withId(R.id.save_button)).perform(click())
+        // Go back to SaveReminderFragment and click to save reminder
         onView(withId(R.id.saveReminder)).perform(click())
-        assertThat(viewModel.showToast.value, `is`("Reminder Saved !"))
-
+        assertThat(viewModel.showToast.value, Is.`is`("Reminder Saved !"))
     }
-
-
 }

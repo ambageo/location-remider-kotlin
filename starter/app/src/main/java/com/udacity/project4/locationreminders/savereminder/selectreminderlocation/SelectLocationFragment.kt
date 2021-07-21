@@ -96,49 +96,10 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         binding.saveButton.setOnClickListener {
             // TODO: call this function after the user confirms on the selected location //DONE
             onLocationSelected()
-            //addGeofence()
         }
 
         return binding.root
     }
-
-   /* private fun addGeofence() {
-       val geofence = Geofence.Builder()
-           .setRequestId(selectedPoi.placeId)
-           .setCircularRegion(
-               selectedPoi.latLng.latitude, selectedPoi.latLng.longitude, GEOFENCE_RADIUS_METERS)
-           .setExpirationDuration(GEOFENCE_EXPIRATION_MILLISECONDS)
-           .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-           .build()
-
-        // Build the geofence request
-        val geofencingRequest = GeofencingRequest.Builder()
-            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-            .addGeofence(geofence)
-            .build()
-
-        // Remove any geofences already associated to the pending intent
-        geofencingClient.removeGeofences(geofencePendingIntent)?.run {
-            addOnCompleteListener {
-                geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
-                    addOnSuccessListener {
-                       *//* Toast.makeText(requireContext(), R.string.geofences_added,
-                            Toast.LENGTH_SHORT)
-                            .show()*//*
-                        Log.d("Add Geofence", geofence.requestId)
-                    }
-                    addOnFailureListener {
-                        Toast.makeText(requireActivity(), R.string.geofences_not_added,
-                            Toast.LENGTH_SHORT).show()
-                        if ((it.message != null)) {
-                            Log.w(TAG, it.message.toString())
-                        }
-                    }
-                }
-            }
-        }
-
-    }*/
 
     private fun onLocationSelected() {
         //        TODO: When the user confirms on the selected location,
@@ -191,7 +152,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private fun enableLocation() {
-        Log.d("ggg", "permission granted: ${isPermissionGranted()}")
+
         if ( isPermissionGranted()) {
             map.setMyLocationEnabled(true)
             fusedLocationClient.lastLocation

@@ -101,6 +101,8 @@ class SaveReminderFragment : BaseFragment() {
 
             // Take current values and pass them as the reminder
             reminder = ReminderDataItem(title, description, location, latitude, longitude)
+            Log.d(TAG, "Checking $title, $description, $location")
+            Log.d(TAG, "has clicked for location? $clickedToSelectLocation")
             checkDeviceLocationSettingsAndStartGeofence(reminder)
 
         }
@@ -189,7 +191,7 @@ class SaveReminderFragment : BaseFragment() {
     }
 
     private fun checkDeviceLocationSettingsAndStartGeofence(reminder: ReminderDataItem, resolve:Boolean = true) {
-        Log.d(TAG, "checking device location settings")
+
         val locationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_LOW_POWER
         }
@@ -229,7 +231,7 @@ class SaveReminderFragment : BaseFragment() {
     }
 
     private fun addGeofence(reminder: ReminderDataItem) {
-// TODO Check that coordinates are not null
+
         Log.d(TAG, "adding geofence for ${reminder.title} ${reminder.description} ${reminder.location} ${reminder.longitude} ${reminder.latitude}" )
         if(reminder.longitude != null && reminder.latitude != null) {
             val geofence = Geofence.Builder()
@@ -250,7 +252,7 @@ class SaveReminderFragment : BaseFragment() {
             geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                 addOnSuccessListener {
                     Log.d(TAG, "Added geofence ${geofence.requestId}")
-                    _viewModel.validateAndSaveReminder(reminder)
+                    //_viewModel.validateAndSaveReminder(reminder)
                 }
                 addOnFailureListener {
                     Toast.makeText(
@@ -264,7 +266,8 @@ class SaveReminderFragment : BaseFragment() {
             }
 
         }
-
+        if(!clickedToSelectLocation)
+        _viewModel.validateAndSaveReminder(reminder)
     }
 
     companion object {

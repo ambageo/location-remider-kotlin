@@ -48,6 +48,7 @@ class SaveReminderFragment : BaseFragment() {
         intent.action = SelectLocationFragment.ACTION_GEOFENCE_EVENT
         PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
+    private var clickedToSelectLocation = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,46 +66,50 @@ class SaveReminderFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = this
-        binding.selectLocation.setOnClickListener {
-            checkDeviceLocationSettingsAndStartGeofence()
-            //            Navigate to another fragment to get the user location
-            _viewModel.navigationCommand.value =
-                NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
-        }
-
-        binding.selectedLocation.text = _viewModel.selectedPOI.value?.name
-        Log.d(TAG, "selected poi name: ${_viewModel.selectedPOI.value?.name}")
-
-        binding.saveReminder.setOnClickListener {
-            val title = _viewModel.reminderTitle.value
-            val description = _viewModel.reminderDescription.value
-            val location = _viewModel.reminderSelectedLocationStr.value
-            val latitude = _viewModel.latitude.value
-            val longitude = _viewModel.longitude.value
-
-//            TODO: use the user entered reminder details to:
-//             1) add a geofencing request
-//             2) save the reminder to the local db //DONE
-            reminderData = ReminderDataItem(title, description, location, latitude, longitude)
-            Log.d(TAG, "Saving Poi: $title $description $location")
-            checkDeviceLocationSettingsAndStartGeofence()
-            //addGeofence()
-            val reminderDTO = _viewModel.validateAndSaveReminder(reminderData)
-            if(reminderDTO != null){
-                addGeofence()
-            }
-
-            checkPermissionsAndStartGeofencing()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d(TAG, "onActivityResult, requestCode = $requestCode")
+        if (requestCode == REQUEST_TURN_DEVICE_LOCATION_ON) {
+            checkDeviceLocationSettingsAndStartGeofence(_viewModel.getReminderDataItem(), false)
         }
     }
 
-    private fun checkPermissionsAndStartGeofencing() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = this
+
+        binding.selectedLocation.text = _viewModel.selectedPOI.value?.name
+        Log.d(TAG, "selected poi name: ${_viewModel.selectedPOI.value?.name}")
+        var reminder = _viewModel.getReminderDataItem()
+
+        binding.selectLocation.setOnClickListener {
+            clickedToSelectLocation = true
+            checkDeviceLocationSettingsAndStartGeofence(reminder)
+            //_viewModel.navigationCommand.value = NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
+        }
+
+        binding.saveReminder.setOnClickListener {
+//            TODO: use the user entered reminder details to:
+//             1) add a geofencing request
+//             2) save the reminder to the local db //DONE
+
+            val title = _viewModel.reminderTitle.value
+            val description = _viewModel.reminderDescription.value
+            var location = _viewModel.reminderSelectedLocationStr.value
+            val latitude = _viewModel.latitude.value
+            val longitude = _viewModel.longitude.value
+
+            // Take current values and pass them as the reminder
+            reminder = ReminderDataItem(title, description, location, latitude, longitude)
+            checkDeviceLocationSettingsAndStartGeofence(reminder)
+
+        }
+    }
+
+    private fun checkPermissionsAndStartGeofencing(reminder: ReminderDataItem) {
 
         if (hasForegroundAndBackgroundLocationPermissions()) {
-            checkDeviceLocationSettingsAndStartGeofence()
+            checkDeviceLocationSettingsAndStartGeofence(reminder)
         } else {
             requestForegroundAndBackgroundLocationPermissions()
         }
@@ -179,11 +184,11 @@ class SaveReminderFragment : BaseFragment() {
                     })
                 }.show()
         } else {
-            checkDeviceLocationSettingsAndStartGeofence()
+            checkDeviceLocationSettingsAndStartGeofence(_viewModel.getReminderDataItem())
         }
     }
 
-    private fun checkDeviceLocationSettingsAndStartGeofence(resolve:Boolean = true) {
+    private fun checkDeviceLocationSettingsAndStartGeofence(reminder: ReminderDataItem, resolve:Boolean = true) {
         Log.d(TAG, "checking device location settings")
         val locationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_LOW_POWER
@@ -206,26 +211,31 @@ class SaveReminderFragment : BaseFragment() {
                     this.requireView(),
                     R.string.location_required_error, Snackbar.LENGTH_INDEFINITE
                 ).setAction(android.R.string.ok) {
-                    checkDeviceLocationSettingsAndStartGeofence()
+                    checkDeviceLocationSettingsAndStartGeofence(_viewModel.getReminderDataItem())
                 }.show()
             }
         }
         locationSettingsResponseTask.addOnCompleteListener {
             if ( it.isSuccessful ) {
                 Log.d(TAG, "Device location enabled")
-                addGeofence()
+                addGeofence(reminder)
+                if(clickedToSelectLocation){
+                    _viewModel.navigationCommand.value = NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
+                    clickedToSelectLocation = false
+                }
             }
         }
 
     }
 
-    private fun addGeofence() {
-        if(this::reminderData.isInitialized) {
-            val currentGeofenceData = reminderData
+    private fun addGeofence(reminder: ReminderDataItem) {
+// TODO Check that coordinates are not null
+        Log.d(TAG, "adding geofence for ${reminder.title} ${reminder.description} ${reminder.location} ${reminder.longitude} ${reminder.latitude}" )
+        if(reminder.longitude != null && reminder.latitude != null) {
             val geofence = Geofence.Builder()
-                .setRequestId(currentGeofenceData.id)
+                .setRequestId(reminder.id)
                 .setCircularRegion(
-                    currentGeofenceData.latitude!!, currentGeofenceData.longitude!!,
+                    reminder.latitude!!, reminder.longitude!!,
                     SelectLocationFragment.GEOFENCE_RADIUS_METERS
                 )
                 .setExpirationDuration(Geofence.NEVER_EXPIRE)
@@ -237,11 +247,10 @@ class SaveReminderFragment : BaseFragment() {
                 .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
                 .addGeofence(geofence)
                 .build()
-
             geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                 addOnSuccessListener {
                     Log.d(TAG, "Added geofence ${geofence.requestId}")
-                    _viewModel.validateAndSaveReminder(reminderData)
+                    _viewModel.validateAndSaveReminder(reminder)
                 }
                 addOnFailureListener {
                     Toast.makeText(
@@ -253,7 +262,9 @@ class SaveReminderFragment : BaseFragment() {
                     }
                 }
             }
+
         }
+
     }
 
     companion object {

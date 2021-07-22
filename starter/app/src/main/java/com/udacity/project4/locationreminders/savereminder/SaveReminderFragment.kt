@@ -69,6 +69,7 @@ class SaveReminderFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         binding.selectLocation.setOnClickListener {
+            checkDeviceLocationSettingsAndStartGeofence()
             //            Navigate to another fragment to get the user location
             _viewModel.navigationCommand.value =
                 NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
@@ -89,7 +90,7 @@ class SaveReminderFragment : BaseFragment() {
 //             2) save the reminder to the local db //DONE
             reminderData = ReminderDataItem(title, description, location, latitude, longitude)
             Log.d(TAG, "Saving Poi: $title $description $location")
-            //checkDeviceLocationSettingsAndStartGeofence()
+            checkDeviceLocationSettingsAndStartGeofence()
             //addGeofence()
             checkPermissionsAndStartGeofencing()
         }
@@ -178,6 +179,7 @@ class SaveReminderFragment : BaseFragment() {
     }
 
     private fun checkDeviceLocationSettingsAndStartGeofence(resolve:Boolean = true) {
+        Log.d(TAG, "checking device location settings")
         val locationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_LOW_POWER
         }
@@ -192,6 +194,7 @@ class SaveReminderFragment : BaseFragment() {
                    exception.startResolutionForResult(requireActivity(),
                    REQUEST_TURN_DEVICE_LOCATION_ON)
                 } catch (sendEx: IntentSender.SendIntentException) {
+                    Log.d(TAG, "Error getting location settings resolution: " + sendEx.message)
                 }
             } else {
                 Snackbar.make(

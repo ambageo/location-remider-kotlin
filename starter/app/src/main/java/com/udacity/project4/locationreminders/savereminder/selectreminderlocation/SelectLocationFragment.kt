@@ -59,7 +59,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     companion object {
         const val ACTION_GEOFENCE_EVENT = "GEOFENCE_EVENT"
         internal const val GEOFENCE_RADIUS_METERS = 50f
-        val GEOFENCE_EXPIRATION_MILLISECONDS: Long = TimeUnit.HOURS.toMillis(2)
     }
 
     /*private val geofencePendingIntent: PendingIntent by lazy {
@@ -68,8 +67,8 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }*/
 
-    private val runningQOrLater = android.os.Build.VERSION.SDK_INT >=
-            android.os.Build.VERSION_CODES.Q
+    private val runningQOrLater = Build.VERSION.SDK_INT >=
+            Build.VERSION_CODES.Q
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -108,8 +107,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         _viewModel.longitude.value = selectedPoi.latLng.longitude
         _viewModel.reminderSelectedLocationStr.value = selectedPoi.name
         parentFragmentManager.popBackStack()
-
-
     }
 
 
@@ -150,8 +147,8 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private fun enableLocation() {
-
         if ( isPermissionGranted()) {
+            Log.d(TAG, "permissions granted, preparing user location")
             map.setMyLocationEnabled(true)
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location : Location ->
@@ -233,7 +230,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             true
         }
 
-        Log.d("ggg", "ForegroundPermission: $foregroundLocationApproved , backgroundPermission: $backgroundPermissionApproved")
+        Log.d(TAG, "ForegroundPermission: $foregroundLocationApproved , backgroundPermission: $backgroundPermissionApproved")
         return foregroundLocationApproved && backgroundPermissionApproved
 
     }
@@ -262,11 +259,8 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray) {
-       /* if( requestCode == REQUEST_PERMISSION_LOCATION ) {
-            if( grantResults.isNotEmpty() && (grantResults[0] ==PackageManager.PERMISSION_GRANTED)){
-                enableLocation()
-            }
-        }*/
+
+        Log.d(TAG, "onRequestPermissionsResult")
         if (grantResults.isEmpty() ||
             grantResults[0] == PackageManager.PERMISSION_DENIED ||
             (requestCode == REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE &&
@@ -285,6 +279,8 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     })
                 }.show()
+        } else {
+            enableLocation()
         }
     }
 }

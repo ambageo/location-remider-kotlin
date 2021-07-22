@@ -91,7 +91,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         val mapFragment =   childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        binding.saveButton.setOnClickListener {
+        binding.saveLocation.setOnClickListener {
             // TODO: call this function after the user confirms on the selected location //DONE
             onLocationSelected()
         }
@@ -186,7 +186,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                     .title(poi.name)
             )
             poiMarker!!.showInfoWindow()
-            binding.saveButton.visibility = View.VISIBLE
+            binding.saveLocation.visibility = View.VISIBLE
         }
     }
 
@@ -201,7 +201,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                     .title(getString(R.string.dropped_pin))
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
             )
-            binding.saveButton.visibility = View.VISIBLE
+            binding.saveLocation.visibility = View.VISIBLE
         }
     }
 
@@ -273,7 +273,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                     grantResults[BACKGROUND_LOCATION_PERMISSION_INDEX] ==
                     PackageManager.PERMISSION_DENIED)) {
             Snackbar.make(
-                binding.saveButton,
+                binding.saveLocation,
                 R.string.permission_denied_explanation,
                 Snackbar.LENGTH_INDEFINITE
             )

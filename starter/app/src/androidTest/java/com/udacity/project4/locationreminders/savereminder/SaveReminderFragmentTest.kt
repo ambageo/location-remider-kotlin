@@ -1,5 +1,6 @@
 package com.udacity.project4.locationreminders.savereminder
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.Fragment
@@ -7,13 +8,16 @@ import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.udacity.project4.R
+import com.udacity.project4.locationreminders.RemindersActivity
 import com.udacity.project4.locationreminders.data.ReminderDataSource
 import com.udacity.project4.locationreminders.data.local.LocalDB
 import com.udacity.project4.locationreminders.data.local.RemindersLocalRepository
@@ -21,6 +25,7 @@ import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
 import com.udacity.project4.util.DataBindingIdlingResource
 
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Rule
@@ -125,7 +130,6 @@ class SaveReminderFragmentTest : KoinTest{
         // WHEN clicking to save, it does so
         onView(withId(R.id.saveReminder)).perform(click())
         assertThat(viewModel.showToast.value, `is`("Reminder Saved !"))
-
     }
 
 

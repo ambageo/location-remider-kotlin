@@ -92,6 +92,11 @@ class SaveReminderFragment : BaseFragment() {
             Log.d(TAG, "Saving Poi: $title $description $location")
             checkDeviceLocationSettingsAndStartGeofence()
             //addGeofence()
+            val reminderDTO = _viewModel.validateAndSaveReminder(reminderData)
+            if(reminderDTO != null){
+                addGeofence()
+            }
+
             checkPermissionsAndStartGeofencing()
         }
     }
@@ -215,11 +220,12 @@ class SaveReminderFragment : BaseFragment() {
     }
 
     private fun addGeofence() {
-        if (reminderData.latitude != null && reminderData.longitude != null) {
+        if(this::reminderData.isInitialized) {
+            val currentGeofenceData = reminderData
             val geofence = Geofence.Builder()
-                .setRequestId(reminderData.id)
+                .setRequestId(currentGeofenceData.id)
                 .setCircularRegion(
-                    reminderData.latitude!!, reminderData.longitude!!,
+                    currentGeofenceData.latitude!!, currentGeofenceData.longitude!!,
                     SelectLocationFragment.GEOFENCE_RADIUS_METERS
                 )
                 .setExpirationDuration(Geofence.NEVER_EXPIRE)

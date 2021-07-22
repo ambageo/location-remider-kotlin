@@ -27,6 +27,7 @@ import java.util.*
 class SaveReminderFragment : BaseFragment() {
 
     private val TAG = SaveReminderFragment::class.java.simpleName
+
     //Get the view model this time as a single to be shared with the another fragment
     override val _viewModel: SaveReminderViewModel by inject()
 
@@ -80,9 +81,8 @@ class SaveReminderFragment : BaseFragment() {
 //             1) add a geofencing request
 //             2) save the reminder to the local db //DONE
             reminderData = ReminderDataItem(title, description, location, latitude, longitude)
-            _viewModel.validateAndSaveReminder(reminderData)
             Log.d(TAG, "Saving Poi: $title $description $location")
-          addGeofence()
+            addGeofence()
         }
     }
 
@@ -93,14 +93,14 @@ class SaveReminderFragment : BaseFragment() {
     }
 
     private fun addGeofence() {
-        if(reminderData.latitude !=null && reminderData.longitude != null){
+        if (reminderData.latitude != null && reminderData.longitude != null) {
             val geofence = Geofence.Builder()
                 .setRequestId(reminderData.id)
                 .setCircularRegion(
                     reminderData.latitude!!, reminderData.longitude!!,
                     SelectLocationFragment.GEOFENCE_RADIUS_METERS
                 )
-                .setExpirationDuration(SelectLocationFragment.GEOFENCE_EXPIRATION_MILLISECONDS)
+                .setExpirationDuration(Geofence.NEVER_EXPIRE)
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                 .build()
 
@@ -110,20 +110,18 @@ class SaveReminderFragment : BaseFragment() {
                 .addGeofence(geofence)
                 .build()
 
-            // Remove any geofences already associated to the pending intent
-            geofencingClient.removeGeofences(geofencePendingIntent)?.run {
-                addOnCompleteListener {
-                    geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
-                        addOnSuccessListener {
-                            Log.d(TAG, "Added geofence ${geofence.requestId}")
-                        }
-                        addOnFailureListener {
-                            Toast.makeText(requireActivity(), R.string.geofences_not_added,
-                                Toast.LENGTH_SHORT).show()
-                            if ((it.message != null)) {
-                                Log.w(TAG, it.message.toString())
-                            }
-                        }
+            geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
+                addOnSuccessListener {
+                    Log.d(TAG, "Added geofence ${geofence.requestId}")
+                    _viewModel.validateAndSaveReminder(reminderData)
+                }
+                addOnFailureListener {
+                    Toast.makeText(
+                        requireActivity(), R.string.geofences_not_added,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    if ((it.message != null)) {
+                        Log.w(TAG, it.message.toString())
                     }
                 }
             }

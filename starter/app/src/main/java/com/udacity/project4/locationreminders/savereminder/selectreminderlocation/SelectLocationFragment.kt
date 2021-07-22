@@ -3,7 +3,6 @@ package com.udacity.project4.locationreminders.savereminder.selectreminderlocati
 
 import android.Manifest
 import android.annotation.TargetApi
-import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
@@ -14,10 +13,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -34,7 +31,6 @@ import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
 import com.udacity.project4.utils.createTitle
 import com.udacity.project4.utils.setDisplayHomeAsUpEnabled
 import org.koin.android.ext.android.inject
-import java.util.concurrent.TimeUnit
 
 private const val REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE = 33
 private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
@@ -167,7 +163,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                     }
                 }
         } else {
-          requestForegroundAndBackgroundLocationPermissions()
+          requestLocationPermission()
         }
     }
 
@@ -220,7 +216,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     * */
     @TargetApi(29)
     private fun isPermissionGranted(): Boolean {
-        val context = requireContext()
+        /*val context = requireContext()
         val foregroundLocationApproved =
                 ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
@@ -231,27 +227,42 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         }
 
         Log.d(TAG, "ForegroundPermission: $foregroundLocationApproved , backgroundPermission: $backgroundPermissionApproved")
-        return foregroundLocationApproved && backgroundPermissionApproved
+        return foregroundLocationApproved && backgroundPermissionApproved*/
+        return ActivityCompat.checkSelfPermission(
+        requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
     }
 
     @TargetApi(29 )
-    private fun requestForegroundAndBackgroundLocationPermissions() {
-
+    private fun requestLocationPermission() {
         var permissionsArray = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-        val resultCode = when {
+
+        val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
+            requireActivity(),
+            Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if(shouldProvideRationale){
+            Snackbar.make( binding.root
+                , R.string.location_required_error
+                , Snackbar.LENGTH_INDEFINITE
+            ).setAction(R.string.permission_denied_explanation) {
+                requestPermissions( permissionsArray, REQUEST_PERMISSION_LOCATION) }
+                .setDuration(Snackbar.LENGTH_LONG)
+                .show()
+        } else {
+            requestPermissions(permissionsArray, REQUEST_PERMISSION_LOCATION)
+        }
+
+        /*val resultCode = when {
             runningQOrLater -> {
                 permissionsArray += Manifest.permission.ACCESS_BACKGROUND_LOCATION
                 REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE
             }
             else -> REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
-        }
+        }*/
+        val resultCode = REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
         Log.d(TAG, "Request foreground only location permission")
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            permissionsArray,
-            resultCode
-        )
+        requestPermissions(permissionsArray, resultCode)
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)

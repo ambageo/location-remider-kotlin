@@ -57,12 +57,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         internal const val GEOFENCE_RADIUS_METERS = 50f
     }
 
-    /*private val geofencePendingIntent: PendingIntent by lazy {
-        val intent = Intent(requireContext(), GeofenceBroadcastReceiver::class.java)
-        intent.action = ACTION_GEOFENCE_EVENT
-        PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-    }*/
-
     private val runningQOrLater = Build.VERSION.SDK_INT >=
             Build.VERSION_CODES.Q
 
@@ -147,21 +141,27 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             Log.d(TAG, "permissions granted, preparing user location")
             map.setMyLocationEnabled(true)
             fusedLocationClient.lastLocation
-                .addOnSuccessListener { location : Location ->
+                .addOnSuccessListener { location : Location? ->
                     run {
                         // Got last known location. In some rare situations this can be null.
-                        val lat = location.latitude
-                        val long = location.longitude
-                        val currentPosition = LatLng(lat, long)
-                        // TODO: zoom to the user location after taking his permission //DONE
-                        val zoom = 15f
-                        map.addMarker(MarkerOptions().position(currentPosition).title(getString(R.string.you_are_here)))
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, zoom))
+                        if (location != null) {
+                            val lat = location.latitude
+                            val long = location.longitude
+                            val currentPosition = LatLng(lat, long)
+                            // TODO: zoom to the user location after taking his permission //DONE
+                            val zoom = 15f
+                            map.addMarker(
+                                MarkerOptions().position(currentPosition)
+                                    .title(getString(R.string.you_are_here))
+                            )
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, zoom))
+                        }
 
                         // TODO: put a marker to location that the user selected //DONE
                         setPoiClick(map)
                     }
                 }
+
         } else {
           requestLocationPermission()
         }

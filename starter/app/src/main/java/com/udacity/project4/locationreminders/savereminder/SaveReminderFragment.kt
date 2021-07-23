@@ -83,9 +83,9 @@ class SaveReminderFragment : BaseFragment() {
         var reminder = _viewModel.getReminderDataItem()
 
         binding.selectLocation.setOnClickListener {
-            clickedToSelectLocation = true
-            checkDeviceLocationSettingsAndStartGeofence(reminder)
-            //_viewModel.navigationCommand.value = NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
+            //clickedToSelectLocation = true
+            //checkDeviceLocationSettingsAndStartGeofence(reminder)
+            _viewModel.navigationCommand.value = NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
         }
 
         binding.saveReminder.setOnClickListener {
@@ -221,10 +221,6 @@ class SaveReminderFragment : BaseFragment() {
             if ( it.isSuccessful ) {
                 Log.d(TAG, "Device location enabled")
                 addGeofence(reminder)
-                if(clickedToSelectLocation){
-                    _viewModel.navigationCommand.value = NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
-                    clickedToSelectLocation = false
-                }
             }
         }
 
@@ -252,7 +248,6 @@ class SaveReminderFragment : BaseFragment() {
             geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                 addOnSuccessListener {
                     Log.d(TAG, "Added geofence ${geofence.requestId}")
-                    //_viewModel.validateAndSaveReminder(reminder)
                 }
                 addOnFailureListener {
                     Toast.makeText(

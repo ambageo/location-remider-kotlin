@@ -101,8 +101,8 @@ class SaveReminderFragment : BaseFragment() {
             // Take current values and pass them as the reminder
             reminder = ReminderDataItem(title, description, location, latitude, longitude)
             Log.d(TAG, "Checking $title, $description, $location")
-            checkDeviceLocationSettingsAndStartGeofence(reminder)
-
+            //checkDeviceLocationSettingsAndStartGeofence(reminder)
+            checkPermissionsAndStartGeofencing(reminder)
         }
     }
 

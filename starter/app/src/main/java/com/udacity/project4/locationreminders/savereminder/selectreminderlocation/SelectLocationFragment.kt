@@ -33,7 +33,6 @@ import com.udacity.project4.utils.setDisplayHomeAsUpEnabled
 import org.koin.android.ext.android.inject
 
 private const val REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE = 33
-private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
 private const val BACKGROUND_LOCATION_PERMISSION_INDEX = 1
 
 class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
@@ -56,9 +55,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         const val ACTION_GEOFENCE_EVENT = "GEOFENCE_EVENT"
         internal const val GEOFENCE_RADIUS_METERS = 50f
     }
-
-    private val runningQOrLater = Build.VERSION.SDK_INT >=
-            Build.VERSION_CODES.Q
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -216,18 +212,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     * */
     @TargetApi(29)
     private fun isPermissionGranted(): Boolean {
-        /*val context = requireContext()
-        val foregroundLocationApproved =
-                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-
-        val backgroundPermissionApproved = if(runningQOrLater){
-            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
-        } else {
-            true
-        }
-
-        Log.d(TAG, "ForegroundPermission: $foregroundLocationApproved , backgroundPermission: $backgroundPermissionApproved")
-        return foregroundLocationApproved && backgroundPermissionApproved*/
         return ActivityCompat.checkSelfPermission(
         requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
@@ -252,17 +236,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         } else {
             requestPermissions(permissionsArray, REQUEST_PERMISSION_LOCATION)
         }
-
-        /*val resultCode = when {
-            runningQOrLater -> {
-                permissionsArray += Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE
-            }
-            else -> REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
-        }*/
-        val resultCode = REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
-        Log.d(TAG, "Request foreground only location permission")
-        requestPermissions(permissionsArray, resultCode)
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -273,10 +246,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
         Log.d(TAG, "onRequestPermissionsResult")
         if (grantResults.isEmpty() ||
-            grantResults[0] == PackageManager.PERMISSION_DENIED ||
-            (requestCode == REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE &&
-                    grantResults[BACKGROUND_LOCATION_PERMISSION_INDEX] ==
-                    PackageManager.PERMISSION_DENIED)) {
+            grantResults[0] == PackageManager.PERMISSION_DENIED) {
             Snackbar.make(
                 binding.saveLocation,
                 R.string.permission_denied_explanation,

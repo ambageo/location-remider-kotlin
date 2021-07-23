@@ -48,7 +48,6 @@ class SaveReminderFragment : BaseFragment() {
         intent.action = SelectLocationFragment.ACTION_GEOFENCE_EVENT
         PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
-    private var clickedToSelectLocation = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,7 +101,6 @@ class SaveReminderFragment : BaseFragment() {
             // Take current values and pass them as the reminder
             reminder = ReminderDataItem(title, description, location, latitude, longitude)
             Log.d(TAG, "Checking $title, $description, $location")
-            Log.d(TAG, "has clicked for location? $clickedToSelectLocation")
             checkDeviceLocationSettingsAndStartGeofence(reminder)
 
         }
@@ -261,7 +259,6 @@ class SaveReminderFragment : BaseFragment() {
             }
 
         }
-        if(!clickedToSelectLocation)
         _viewModel.validateAndSaveReminder(reminder)
     }
 

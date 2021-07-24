@@ -153,7 +153,7 @@ class SaveReminderFragment : BaseFragment() {
             }
             else -> REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
         }
-        ActivityCompat.requestPermissions(requireActivity(), permissionsArray, resultCode)
+        requestPermissions(permissionsArray, resultCode)
     }
 
     override fun onRequestPermissionsResult(

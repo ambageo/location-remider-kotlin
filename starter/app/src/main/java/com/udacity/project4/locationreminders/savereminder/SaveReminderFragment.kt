@@ -82,8 +82,6 @@ class SaveReminderFragment : BaseFragment() {
         var reminder = _viewModel.getReminderDataItem()
 
         binding.selectLocation.setOnClickListener {
-            //clickedToSelectLocation = true
-            //checkDeviceLocationSettingsAndStartGeofence(reminder)
             _viewModel.navigationCommand.value = NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
         }
 

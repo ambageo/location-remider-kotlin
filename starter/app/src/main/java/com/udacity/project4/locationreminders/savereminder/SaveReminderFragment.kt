@@ -2,6 +2,7 @@ package com.udacity.project4.locationreminders.savereminder
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentSender
@@ -14,11 +15,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.udacity.project4.BuildConfig
 import com.udacity.project4.R
 import com.udacity.project4.base.BaseFragment
@@ -29,6 +36,7 @@ import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
 import com.udacity.project4.locationreminders.savereminder.selectreminderlocation.SelectLocationFragment
 import com.udacity.project4.utils.setDisplayHomeAsUpEnabled
 import org.koin.android.ext.android.inject
+import java.lang.Exception
 import java.util.*
 
 class SaveReminderFragment : BaseFragment() {
@@ -40,6 +48,8 @@ class SaveReminderFragment : BaseFragment() {
 
     private lateinit var binding: FragmentSaveReminderBinding
     private lateinit var reminderData: ReminderDataItem
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+
     lateinit var geofencingClient: GeofencingClient
 
     private val runningQOrLater = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q
@@ -61,6 +71,8 @@ class SaveReminderFragment : BaseFragment() {
         geofencingClient = LocationServices.getGeofencingClient(requireActivity())
 
         binding.viewModel = _viewModel
+
+        registerForLocationResult()
 
         return binding.root
     }
@@ -99,8 +111,31 @@ class SaveReminderFragment : BaseFragment() {
             // Take current values and pass them as the reminder
             reminder = ReminderDataItem(title, description, location, latitude, longitude)
             Log.d(TAG, "Checking $title, $description, $location")
-            //checkDeviceLocationSettingsAndStartGeofence(reminder)
             checkPermissionsAndStartGeofencing(reminder)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //make sure to clear the view model after destroy, as it's a single view model.
+        _viewModel.onClear()
+    }
+
+    /**
+     * Registers a launcher used to start the process of executing an ActivityResultContract
+     * so that we can listen to the result of the sign - in process
+     * This must be done in onCreate() or on Attach, ie before the fragment is created
+     */
+    private fun registerForLocationResult() {
+        resultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()){ result: ActivityResult ->
+            val response = IdpResponse.fromResultIntent(result.data)
+            // Listen to the result of the sign - in process
+            if(result.resultCode == Activity.RESULT_OK){
+                Log.d(TAG, "result code OK, response: $result.data")
+            } else {
+                Log.d(TAG, "result not OK, ${response?.error?.errorCode}")
+            }
         }
     }
 
@@ -111,13 +146,6 @@ class SaveReminderFragment : BaseFragment() {
         } else {
             requestForegroundAndBackgroundLocationPermissions()
         }
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        //make sure to clear the view model after destroy, as it's a single view model.
-        _viewModel.onClear()
     }
 
     /*
@@ -199,8 +227,16 @@ class SaveReminderFragment : BaseFragment() {
         locationSettingsResponseTask.addOnFailureListener { exception ->
             if (exception is ResolvableApiException && resolve){
                 try {
-                   exception.startResolutionForResult(requireActivity(),
-                   REQUEST_TURN_DEVICE_LOCATION_ON)
+                   /*exception.startResolutionForResult(requireActivity(),
+                   REQUEST_TURN_DEVICE_LOCATION_ON)*/
+                    //registerForSignInResult()
+                    registerForActivityResult(
+                        ActivityResultContracts.StartIntentSenderForResult()){ result ->
+                        if(result.resultCode == Activity.RESULT_OK){
+                            Log.d(TAG, "Result OK, need to ask for location")
+                            // Here we should launch the resultLauncher
+                        }
+                    }
                 } catch (sendEx: IntentSender.SendIntentException) {
                     Log.d(TAG, "Error getting location settings resolution: " + sendEx.message)
                 }

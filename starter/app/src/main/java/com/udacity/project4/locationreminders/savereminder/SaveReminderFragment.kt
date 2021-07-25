@@ -3,6 +3,7 @@ package com.udacity.project4.locationreminders.savereminder
 import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentSender
@@ -36,8 +37,6 @@ import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
 import com.udacity.project4.locationreminders.savereminder.selectreminderlocation.SelectLocationFragment
 import com.udacity.project4.utils.setDisplayHomeAsUpEnabled
 import org.koin.android.ext.android.inject
-import java.lang.Exception
-import java.util.*
 
 class SaveReminderFragment : BaseFragment() {
 
@@ -48,7 +47,6 @@ class SaveReminderFragment : BaseFragment() {
 
     private lateinit var binding: FragmentSaveReminderBinding
     private lateinit var reminderData: ReminderDataItem
-    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     lateinit var geofencingClient: GeofencingClient
 
@@ -57,6 +55,16 @@ class SaveReminderFragment : BaseFragment() {
         val intent = Intent(requireContext(), GeofenceBroadcastReceiver::class.java)
         intent.action = SelectLocationFragment.ACTION_GEOFENCE_EVENT
         PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
+    private val resultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()){ result ->
+        if (result.resultCode == RESULT_OK){
+            Log.d(TAG, "Result OK")
+        }
+        else {
+            Log.d(TAG, "Result: ${result.resultCode}")
+        }
     }
 
     override fun onCreateView(
@@ -72,14 +80,18 @@ class SaveReminderFragment : BaseFragment() {
 
         binding.viewModel = _viewModel
 
-        registerForLocationResult()
+        /**
+         * Registers a launcher used to start the process of executing an ActivityResultContract
+         * so that we can listen to the result of the sign - in process
+         * This must be done in onCreate() or on Attach, ie before the fragment is created
+         */
 
         return binding.root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAG, "onActivityResult, requestCode = $requestCode")
+        Log.d(TAG, "onActivityResult, requestCode = $requestCode resultCode: $resultCode")
         if (requestCode == REQUEST_TURN_DEVICE_LOCATION_ON) {
             checkDeviceLocationSettingsAndStartGeofence(_viewModel.getReminderDataItem(), false)
         }
@@ -121,23 +133,6 @@ class SaveReminderFragment : BaseFragment() {
         _viewModel.onClear()
     }
 
-    /**
-     * Registers a launcher used to start the process of executing an ActivityResultContract
-     * so that we can listen to the result of the sign - in process
-     * This must be done in onCreate() or on Attach, ie before the fragment is created
-     */
-    private fun registerForLocationResult() {
-        resultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()){ result: ActivityResult ->
-            val response = IdpResponse.fromResultIntent(result.data)
-            // Listen to the result of the sign - in process
-            if(result.resultCode == Activity.RESULT_OK){
-                Log.d(TAG, "result code OK, response: $result.data")
-            } else {
-                Log.d(TAG, "result not OK, ${response?.error?.errorCode}")
-            }
-        }
-    }
 
     private fun checkPermissionsAndStartGeofencing(reminder: ReminderDataItem) {
 
@@ -225,18 +220,14 @@ class SaveReminderFragment : BaseFragment() {
             settingsClient.checkLocationSettings(locationSettingRequestsBuilder.build())
 
         locationSettingsResponseTask.addOnFailureListener { exception ->
+            Log.d(TAG, "exception: $exception.message")
             if (exception is ResolvableApiException && resolve){
                 try {
                    /*exception.startResolutionForResult(requireActivity(),
                    REQUEST_TURN_DEVICE_LOCATION_ON)*/
-                    //registerForSignInResult()
-                    registerForActivityResult(
-                        ActivityResultContracts.StartIntentSenderForResult()){ result ->
-                        if(result.resultCode == Activity.RESULT_OK){
-                            Log.d(TAG, "Result OK, need to ask for location")
-                            // Here we should launch the resultLauncher
-                        }
-                    }
+                        Log.d(TAG, "Exception, calling launch()")
+                       val intentSenderRequest = IntentSenderRequest.Builder(exception.resolution).build()
+                        resultLauncher.launch(intentSenderRequest)
                 } catch (sendEx: IntentSender.SendIntentException) {
                     Log.d(TAG, "Error getting location settings resolution: " + sendEx.message)
                 }
